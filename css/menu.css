@@ -1,0 +1,179 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.button {
+    display: block;
+    position: absolute;
+    margin: 5px;
+}
+
+.button-right {
+    right: 0;
+}
+
+.button-left {
+    left: 0;
+}
+
+.button-down {
+    top: 0;
+}
+
+.button-up {
+    bottom: 0;
+}
+
+.container {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.context-menu,
+.context-sub-menu {
+    position: fixed;
+    z-index: 1000;
+    display: block;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    line-height: normal;
+    text-align: left;
+    color: #333;
+    padding: 5px 0;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 2px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
+    overflow: hidden;
+    min-height: 100px;
+}
+
+.context-menu > .items-wrapper,
+.context-sub-menu > .items-wrapper {
+    display: block;
+    position: relative;
+    width: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.context-menu > .items-wrapper > div,
+.context-sub-menu > .items-wrapper > div {
+    position: relative;
+    display: block;
+    background-color: #fff;
+    background-clip: padding-box;
+    padding: 3px 25px 3px 20px;
+    clear: both;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-selec: none;
+    user-select: none;
+}
+
+.context-menu > .items-wrapper > div:hover,
+.context-sub-menu > .items-wrapper > div:hover {
+    background-color: #eee;
+}
+
+.context-menu > .items-wrapper > .disabled,
+.context-sub-menu > .items-wrapper > .disabled {
+    color: #aaa;
+    cursor: default;
+}
+
+.context-menu > .items-wrapper > .disabled:hover,
+.context-sub-menu > .items-wrapper > .disabled:hover {
+    background-color: #fff;
+}
+
+.context-menu > .context-scroll,
+.context-sub-menu > .context-scroll {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 15px;
+    background-color: #eee;
+    z-index: 1000;
+    border: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.context-menu > .context-scroll:hover,
+.context-sub-menu > .context-scroll:hover {
+    background-color: #ddd;
+}
+
+.context-menu > .context-scroll.hidden,
+.context-sub-menu > .context-scroll.hidden {
+    visibility: hidden;
+}
+
+.scroll-top {
+    top: 0;
+    border-radius: 1px 1px 0 0;
+}
+
+.scroll-bottom {
+    bottom: 0;
+    border-radius: 0 0 1px 1px;
+}
+
+.caret {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.caret-right {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 5px;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid;
+    border-right: 0px;
+}
+
+.caret-top {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 0px;
+    border-bottom: 4px solid;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+
+.caret-bottom {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 4px solid;
+    border-bottom: 0px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+
