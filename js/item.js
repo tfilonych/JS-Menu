@@ -1,8 +1,9 @@
 "use strict";
 
 (function() {
-    function Item(data){
+    function Item(data, parentMenu){
         this.data = data;
+        this.parentMenu = parentMenu;
         this.el = new Element('div');
 
         if (this.data.disabled){
@@ -22,11 +23,12 @@
             this.el.onClick(this.data.handler);
         }
         this.el.onMouseover(this.showSubmenu.bind(this));
-    };
+    }
 
     Item.prototype.showSubmenu = function(){
         if (this.submenu){
             this.submenu.setDesiredPositionRelativelyTo(this.el);
+            this.submenu.setZIndex(this.parentMenu.zIndex + 1);
             this.submenu.show();
         }
     };

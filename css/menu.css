@@ -40,7 +40,6 @@ html, body {
 .context-menu,
 .context-sub-menu {
     position: fixed;
-    z-index: 1000;
     display: block;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -55,7 +54,6 @@ html, body {
     border-radius: 2px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
     overflow: hidden;
-    min-height: 100px;
 }
 
 .context-menu > .items-wrapper,

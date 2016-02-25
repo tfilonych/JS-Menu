@@ -5,10 +5,11 @@
         this.data = data;
         this.items = [];
         this.isSubmenu = isSubmenu;
-        this.build();
+        this.zIndex = 1000;
+        this.buildMenu();
     }
 
-    Menu.prototype.build = function() {
+    Menu.prototype.buildMenu = function() {
         this.menu = new Element('div');
 
         if (this.isSubmenu){
@@ -25,21 +26,21 @@
         this.menu.appendChild(this.itemsWrapper);
 
         for (var i = 0; i < this.data.length; i++){
-            var item = new Item(this.data[i]);
+            var item = new Item(this.data[i], this);
             this.itemsWrapper.appendChild(item.el);
             this.items.push(item);
         }
         this.scrollDown = this.createScrollButton('bottom');
         this.menu.appendChild(this.scrollDown);
-        //this.hideScrolls();
+        this.hideScrolls();
         if (!this.isSubmenu){
             document.body.appendChild(this.menu.el);
+            this.setZIndex(this.zIndex);
         }
         this.menu.addClass('hidden');
         document.body.addEventListener('click', this.hide.bind(this));
         this.scrollDown.onClick(this.moveItemsUp.bind(this));
         this.scrollUp.onClick(this.moveItemsDown.bind(this));
-
     };
 
     Menu.prototype.createScrollButton = function(position){
@@ -50,6 +51,11 @@
         caret.addClass('caret caret-' + position);
         button.appendChild(caret);
         return button;
+    };
+
+    Menu.prototype.setZIndex = function(index){
+        this.menu.el.style.zIndex = '' + index;
+        this.zIndex = index;
     };
 
     Menu.prototype.attachTo = function(element){
@@ -79,7 +85,6 @@
                 } else {
                     return submenu.areItemsParentsOf(element);
                 }
-
             }
         }
         return false;
@@ -95,7 +100,7 @@
     Menu.prototype.setDesiredPositionRelativelyTo = function(node){
         var element = node.el || node,
             windowWidth = window.innerWidth,
-            hwindowHeight = window.innerHeight,
+            windowHeight = window.innerHeight,
             menuRect = this.menu.el.getBoundingClientRect(),
             targetRect = element.getBoundingClientRect();
 
@@ -104,11 +109,25 @@
         } else {
             this.menu.el.style.left = (targetRect.left - menuRect.width) + 'px';
         }
-        if (targetRect.top + menuRect.height < hwindowHeight){
+
+        this.resetHightToContents();
+        menuRect = this.menu.el.getBoundingClientRect();
+
+        if (targetRect.top + menuRect.height < windowHeight){
             this.menu.el.style.top = targetRect.top + 'px';
-        } else {
+        } else if (targetRect.bottom - menuRect.height > 0){
             this.menu.el.style.top = (targetRect.bottom - menuRect.height) + 'px';
+        } else {
+            this.menu.el.style.top = '0px';
+            this.menu.el.style.height = (windowHeight - 20) + 'px';
+            this.showScrolls();
         }
+    };
+
+    Menu.prototype.resetHightToContents = function(){
+        this.menu.el.style.height = this.itemsWrapper.getHeight() + 'px';
+        this.itemsWrapper.el.style.top = '0px';
+        this.hideScrolls();
     };
 
     Menu.prototype.hideScrolls = function(){
@@ -125,20 +144,32 @@
         var itemHeight = this.items[0].el.getHeight(),
             wrapperRect = this.itemsWrapper.el.getBoundingClientRect(),
             menuRect = this.menu.el.getBoundingClientRect(),
-            relativeTop = menuRect.top - wrapperRect.top;
+            relativeTop = -(menuRect.top - wrapperRect.top) - itemHeight;
 
-        this.itemsWrapper.el.style.top = (-relativeTop - itemHeight) + 'px';
+        if (relativeTop + wrapperRect.height > menuRect.height){
+            this.itemsWrapper.el.style.top = relativeTop + 'px';
+            this.scrollUp.removeClass('hidden');
+        } else {
+            this.itemsWrapper.el.style.top = (menuRect.height - wrapperRect.height - 20) + 'px';
+            this.scrollDown.addClass('hidden');
+        }
     };
 
     Menu.prototype.moveItemsDown = function(){
         var itemHeight = this.items[0].el.getHeight(),
             wrapperRect = this.itemsWrapper.el.getBoundingClientRect(),
             menuRect = this.menu.el.getBoundingClientRect(),
-            relativeTop = menuRect.top - wrapperRect.top;
+            relativeTop = -(menuRect.top - wrapperRect.top) + itemHeight;
 
-        this.itemsWrapper.el.style.top = (-relativeTop + itemHeight) + 'px';
+        if (relativeTop < 0){
+            this.itemsWrapper.el.style.top = relativeTop + 'px';
+            this.scrollDown.removeClass('hidden');
+        } else {
+            this.itemsWrapper.el.style.top = '10px';
+            this.scrollUp.addClass('hidden');
+        }
     };
-
     window.Menu = Menu;
 
 })();
+
