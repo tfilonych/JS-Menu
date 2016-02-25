@@ -35,7 +35,7 @@
         if (!this.isSubmenu){
             document.body.appendChild(this.menu.el);
         }
-        this.hide();
+        this.menu.addClass('hidden');
         document.body.addEventListener('click', this.hide.bind(this));
         this.scrollDown.onClick(this.moveItemsUp.bind(this));
         this.scrollUp.onClick(this.moveItemsDown.bind(this));
@@ -73,8 +73,13 @@
 
         for (i = 0; i < this.items.length; i++){
             submenu = this.items[i].submenu;
-            if (submenu && submenu.menu.isParentFor(element)){
-                return true;
+            if (submenu){
+                if (submenu.menu.isParentFor(element)){
+                    return true;
+                } else {
+                    return submenu.areItemsParentsOf(element);
+                }
+
             }
         }
         return false;
